@@ -25,6 +25,14 @@ export function isOnOrBefore(a: string, b: string): boolean {
   return a <= b
 }
 
+/** 时间戳 → YYYY-MM-DD HH:mm */
+export function formatDateTime(ts: number): string {
+  const d = new Date(ts)
+  const hh = String(d.getHours()).padStart(2, '0')
+  const mm = String(d.getMinutes()).padStart(2, '0')
+  return `${formatDate(ts)} ${hh}:${mm}`
+}
+
 /** 当前日期 YYYY-MM-DD */
 export function today(): string {
   return formatDate(Date.now())

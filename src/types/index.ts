@@ -101,6 +101,28 @@ export interface BorrowRecord {
   createdAt: number
 }
 
+// ---------- 盘点 ----------
+export type StocktakeStatus = '进行中' | '已完成'
+
+/** 盘点明细：每个材料一条，systemQty 为开账快照，actualQty 为实盘数量（null = 未清点） */
+export interface StocktakeItem {
+  materialId: string
+  name: string
+  category: MaterialCategory
+  unit: string
+  location: string
+  systemQty: number
+  actualQty: number | null
+}
+
+export interface StocktakeSession {
+  id: string
+  status: StocktakeStatus
+  items: StocktakeItem[]
+  startedAt: number
+  finishedAt?: number
+}
+
 // ---------- 缺口分析 ----------
 export interface ToolGap {
   key: string

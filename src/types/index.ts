@@ -32,6 +32,26 @@ export interface Material {
   updatedAt: number
 }
 
+// ---------- 库存盘点 ----------
+/** 盘点差异明细项（仅记录实盘与账面不一致的项） */
+export interface StocktakeDiffItem {
+  materialId: string
+  name: string
+  unit: string
+  systemQty: number // 盘点时账面数量（快照）
+  actualQty: number // 实盘数量
+  diff: number // 实盘 - 账面，正为盘盈，负为盘亏
+}
+
+/** 一次盘点活动的留档记录 */
+export interface StocktakeRecord {
+  id: string
+  createdAt: number
+  totalCount: number // 参与盘点的材料种数
+  diffCount: number // 存在差异的种数
+  items: StocktakeDiffItem[] // 差异明细（无差异时为空数组）
+}
+
 // ---------- 项目 ----------
 export type ProjectCategory = '家具制作' | '水电维修' | '电子制作' | '家居改造' | '其他'
 export type Difficulty = '简单' | '中等' | '困难'

@@ -28,6 +28,18 @@ export function useMaterialStore() {
     return materials.value.find((m) => m.id === id)
   }
 
+  /** 盘点修正：按盘点结果批量把库存数量修正为实盘数量 */
+  function applyStocktake(items: { id: string; quantity: number }[]) {
+    const now = Date.now()
+    for (const item of items) {
+      const material = materials.value.find((m) => m.id === item.id)
+      if (material) {
+        material.quantity = item.quantity
+        material.updatedAt = now
+      }
+    }
+  }
+
   /** 库存预警：数量低于最低库存预警值的材料 */
   const lowStockMaterials = computed(() =>
     materials.value.filter((m) => toNumber(m.quantity) < toNumber(m.minStock)),
@@ -42,6 +54,7 @@ export function useMaterialStore() {
     updateMaterial,
     removeMaterial,
     getMaterial,
+    applyStocktake,
     lowStockMaterials,
     categoryCount,
   }
